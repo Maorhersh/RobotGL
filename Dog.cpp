@@ -1,4 +1,6 @@
 #include "Dog.h"
+#include "ObjectGL.h"
+
 
 Dog::Dog(string inputfile, GLfloat PosX, GLfloat PosY, GLfloat PosZ, GLfloat scale, glm::vec3 upVector, glm::vec3 towardVector, GLfloat angle) :
 	ObjectGL(inputfile, PosX, PosY, PosZ, scale, upVector, towardVector, angle) {
@@ -55,6 +57,7 @@ void Dog::handleRotation(int organ) {
 	glRotatef(organsAngles[organ][true], orignalSideVector.x, orignalSideVector.y, orignalSideVector.z);
 	glTranslatef(-organsPos[organ][0], -organsPos[organ][1], -organsPos[organ][2]);
 }
+
 
 void Dog::walk(GLfloat distance) {
 	moveLegs(legs_angle_per_step, true); // move legs for walking animation

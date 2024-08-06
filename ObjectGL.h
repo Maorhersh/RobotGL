@@ -40,10 +40,16 @@ class ObjectGL {
 		GLfloat PosY; // the y object position 
 		GLfloat angle; // the angle of the object
 		GLfloat scale; // the scale of the object
+		GLfloat initY;
+		bool vibrating = false;
+		float vibrationAmplitude = 0.0f;
+		float vibrationFrequency = 0.0f;
 		glm::vec3 towardVector; // where the object "look" (use for movement)
 		glm::vec3 upVector; // the up direction
 		map<string, vector<function<void()>>> shapesTasks; // drawing tasks add to specific shape (or to the whole object)
 		void draw(); // draw the object
+		void vibrate(float amplitude, float frequency, float time, float initialPos);
+		void setVibration(bool enable, float initialPos);
 		void setPosition(GLfloat x, GLfloat y, GLfloat z); // set the position of the object
 		void rotate(GLfloat angle); // rotate the object
 		void addTask(function<void()> func, string shape = "GLOBAL"); // add task shapesTasks

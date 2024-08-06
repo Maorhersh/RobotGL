@@ -39,6 +39,7 @@ class Dog : public ObjectGL {
 			{DOG_RIGHT_FRONT_LEG, { {true, 30.0f}, {false, 40.0f} } }
 		};
 		// map organ to it's current angle
+
 		map<int, map<bool, float>> organsAngles = {
 		//    organ			        vertical max   horizontal max
 			{DOG_HEAD,            { {true, 0.0f}, {false, 0.0f} } },

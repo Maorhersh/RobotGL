@@ -1,88 +1,85 @@
 #include "Walls.h"
+#include "RandomColor.h"
 
+// Constructor
 Walls::Walls(GLfloat height, GLfloat xMin, GLfloat xMax, GLfloat yMin, GLfloat yMax, int rows, int columns) {
-	this->xMin = xMin;
-	this->xMax = xMax;
-	this->yMin = yMin;
-	this->yMax = yMax;
-	this->height = height;
-	this->rows = rows;
-	this->columns = columns;
+    this->xMin = xMin;
+    this->xMax = xMax;
+    this->yMin = yMin;
+    this->yMax = yMax;
+    this->height = height;
+    this->rows = rows;
+    this->columns = columns;
+
+    // Initialize random seed
+    initRandomSeed();
+
+    // Generate wall colors
+    generateWallColors();
+}
+
+void Walls::generateWallColors() {
+    GLfloat r, g, b;
+    generateRandomColor(r, g, b);
+    southWallColor = { r, g, b };
+
+    generateRandomColor(r, g, b);
+    northWallColor = { r, g, b };
+
+    generateRandomColor(r, g, b);
+    westWallColor = { r, g, b };
+
+    generateRandomColor(r, g, b);
+    eastWallColor = { r, g, b };
 }
 
 void Walls::draw() {
-	glPushMatrix();
-	glNormal3d(0, 1, 0);
+    glPushMatrix();
+    glNormal3d(0, 1, 0);
 
-	GLfloat specular[] = { 1.0f, 1.0f, 1.0f };
-	GLfloat shininess = 64.0f;
-	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
-	glMaterialf(GL_FRONT, GL_SHININESS, shininess);
-	GLfloat wall_color[4] = { this->color[0], this->color[1], this->color[2], this->alpha };
+    GLfloat specular[] = { 1.0f, 1.0f, 1.0f };
+    GLfloat shininess = 64.0f;
+    glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+    glMaterialf(GL_FRONT, GL_SHININESS, shininess);
 
-	float width, row_step, column_step;
-	row_step = height / (float)columns; // calc rows height
-	glBegin(GL_QUADS);
-		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, wall_color);
-		if (showSouth) {
-			width = glm::distance(glm::vec2(xMin, yMin), glm::vec2(xMax, yMin)); // calc width, the distance between (xMin, yMin) to (xMax, yMin)
-			column_step = width / (float)columns; // calc column width
-			// for each row
-			for (int row = 0; row < rows; row++)
-			{
-				// for each column
-				for (int column = 0; column < columns; column++)
-				{
-					glVertex3f(xMin + column * column_step, row * row_step, yMin );
-					glVertex3f(xMin + (column + 1) * column_step, row * row_step, yMin);
-					glVertex3f(xMin + (column + 1) * column_step, (row + 1) * row_step, yMin);
-					glVertex3f(xMin + column * column_step, (row + 1) * row_step, yMin);
-				}
-			}
-		}
-		if (showNorth) {
-			width = glm::distance(glm::vec2(xMin, yMax), glm::vec2(xMax, yMax));
-			column_step = width / (float)columns;
-			for (int row = 0; row < rows; row++)
-			{
-				for (int column = 0; column < columns; column++)
-				{
-					glVertex3f(xMin + column * column_step, row * row_step, yMax);
-					glVertex3f(xMin + (column + 1) * column_step, row * row_step, yMax);
-					glVertex3f(xMin + (column + 1) * column_step, (row + 1) * row_step, yMax);
-					glVertex3f(xMin + column * column_step, (row + 1) * row_step, yMax);
-				}
-			}
-		}
-		if (showWest) {
-			width = glm::distance(glm::vec2(xMin, yMin), glm::vec2(xMin, yMax));
-			column_step = width / (float)columns;
-			for (int row = 0; row < rows; row++)
-			{
-				for (int column = 0; column < columns; column++)
-				{
-					glVertex3f(xMin, row * row_step, yMin + column * column_step);
-					glVertex3f(xMin, row * row_step, yMin + (column + 1) * column_step);
-					glVertex3f(xMin, (row + 1) * row_step, yMin + (column + 1) * column_step);
-					glVertex3f(xMin, (row + 1) * row_step, yMin + column * column_step);
-				}
-			}
-		}
-		if (showEast) {
-			width = glm::distance(glm::vec2(xMax, yMin), glm::vec2(xMax, yMax));
-			column_step = width / (float)columns;
-			for (int row = 0; row < rows; row++)
-			{
-				for (int column = 0; column < columns; column++)
-				{
-					glVertex3f(xMax, row * row_step, yMin + column * column_step);
-					glVertex3f(xMax, row * row_step, yMin + (column + 1) * column_step);
-					glVertex3f(xMax, (row + 1) * row_step, yMin + (column + 1) * column_step);
-					glVertex3f(xMax, (row + 1) * row_step, yMin + column * column_step);
-				}
-			}
-		}
-	glEnd();
+    glBegin(GL_QUADS);
+    if (showSouth) {
+        GLfloat currentColor[4] = { southWallColor[0], southWallColor[1], southWallColor[2], 1.0f };
+        glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, currentColor);
 
-	glPopMatrix();
+        glVertex3f(xMin, 0, yMin);
+        glVertex3f(xMax, 0, yMin);
+        glVertex3f(xMax, height, yMin);
+        glVertex3f(xMin, height, yMin);
+    }
+    if (showNorth) {
+        GLfloat currentColor[4] = { northWallColor[0], northWallColor[1], northWallColor[2], 1.0f };
+        glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, currentColor);
+
+        glVertex3f(xMin, 0, yMax);
+        glVertex3f(xMax, 0, yMax);
+        glVertex3f(xMax, height, yMax);
+        glVertex3f(xMin, height, yMax);
+    }
+    if (showWest) {
+        GLfloat currentColor[4] = { westWallColor[0], westWallColor[1], westWallColor[2], 1.0f };
+        glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, currentColor);
+
+        glVertex3f(xMin, 0, yMin);
+        glVertex3f(xMin, 0, yMax);
+        glVertex3f(xMin, height, yMax);
+        glVertex3f(xMin, height, yMin);
+    }
+    if (showEast) {
+        GLfloat currentColor[4] = { eastWallColor[0], eastWallColor[1], eastWallColor[2], 1.0f };
+        glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, currentColor);
+
+        glVertex3f(xMax, 0, yMin);
+        glVertex3f(xMax, 0, yMax);
+        glVertex3f(xMax, height, yMax);
+        glVertex3f(xMax, height, yMin);
+    }
+    glEnd();
+
+    glPopMatrix();
 }
