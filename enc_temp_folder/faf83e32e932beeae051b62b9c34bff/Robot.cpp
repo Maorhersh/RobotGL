@@ -4,7 +4,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-Robot::Robot() // the robot initial state
+Robot::Robot()
     : posX(0), posY(1), posZ(0), directionAngle(0),
     headVerticalAngle(0), headHorizontalAngle(0),
     leftUpperArmAngle(0), leftLowerArmAngle(0), leftWristAngle(0),
@@ -16,6 +16,19 @@ Robot::Robot() // the robot initial state
     legWalkingAngle(0) {}
 
 void Robot::draw() {
+    //glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHT0);
+    /*
+    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
+    GLfloat light_ambient[] = { 0.5, 0.5, 0.5, 1.0 };
+    GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+    */
     glPushMatrix();
     glTranslatef(posX, posY, posZ);
     glRotatef(directionAngle, 0.0, 1.0, 0.0);
@@ -27,7 +40,6 @@ void Robot::draw() {
 }
 
 void Robot::rotateArmShoulder(float angle, bool left) {
-    // limiting the arms movments to be more realistic
     if (left) {
         leftUpperArmAngle += angle;
         if (leftUpperArmAngle < LEFT_UPPER_ARM_MIN) {
@@ -49,7 +61,6 @@ void Robot::rotateArmShoulder(float angle, bool left) {
 }
 
 void Robot::rotateArmElbow(float angle, bool left) {
-    // limiting the elbows movments to be more realistic
     if (left) {
         leftLowerArmAngle += angle;
         if (leftLowerArmAngle < LEFT_LOWER_ARM_MIN) {
@@ -71,7 +82,6 @@ void Robot::rotateArmElbow(float angle, bool left) {
 }
 
 void Robot::rotateArmWrist(float angle, bool left) {
-    // limiting the wrists movments to be more realistic
     if (left) {
         leftWristAngle += angle;
         if (leftWristAngle < LEFT_WRIST_MIN) {
@@ -188,7 +198,9 @@ void Robot::getView(float& eyeX, float& eyeY, float& eyeZ, float& centerX, float
 }
 
 
-// get the robot current position and direction
+
+
+
 float Robot::getPositionX() const {
     return posX;
 }

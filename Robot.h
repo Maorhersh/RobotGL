@@ -21,6 +21,34 @@ const float LEFT_WRIST_MIN = -30.0f; // Wrist joint: realistic min angle
 const float LEFT_WRIST_MAX = 30.0f;  // Wrist joint: realistic max angle
 const float RIGHT_WRIST_MIN = -30.0f; // Wrist joint: realistic min angle
 const float RIGHT_WRIST_MAX = 30.0f;  // Wrist joint: realistic max angle
+
+const float HEAD_MAX_VERTICAL = 35.0f; // Wrist joint: realistic min angle
+const float HEAD_MIN_VERTICAL = -35.0f;  // Wrist joint: realistic max angle
+
+// robot surface values to make it look metalic
+const GLfloat mat_ambient[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+const GLfloat mat_diffuse[] = { 0.4f, 0.4f, 0.4f, 1.0f };
+const GLfloat mat_specular[] = { 0.774597f, 0.774597f, 0.774597f, 1.0f };
+const GLfloat mat_shininess[] = { 76.8f }; // High value for a shiny effect
+
+// surface values for the eyes
+const GLfloat whiteAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+const GLfloat whiteDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+const GLfloat whiteSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+const GLfloat whiteShininess[] = { 50.0f };
+
+// surface values for the pupiles
+const GLfloat blueAmbient[] = { 0.0f, 0.0f, 1.0f, 1.0f };
+const GLfloat blueDiffuse[] = { 0.0f, 0.0f, 1.0f, 1.0f };
+const GLfloat blueSpecular[] = { 0.0f, 0.0f, 1.0f, 1.0f };
+const GLfloat blueShininess[] = { 50.0f };
+
+// surface for the mouth
+const GLfloat blackAmbient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+const GLfloat blackDiffuse[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+const GLfloat blackSpecular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+const GLfloat blackShininess[] = { 50.0f };
+
 class Robot {
 public:
     Robot();
